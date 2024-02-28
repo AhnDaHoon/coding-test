@@ -6,56 +6,65 @@ public class B18352 {
     static int visited[];
     static ArrayList<Integer>[] A;
     static int N,M,K,X;
-    static List<Integer> answer;
+    static List<Integer> answer = new ArrayList<>();
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        N = scan.nextInt(); // 정점의 수
-        M = scan.nextInt(); // 간선의 수
-        K = scan.nextInt(); // 간선의 수
-        X = scan.nextInt(); // 간선의 수
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int M = scanner.nextInt();
+        int K = scanner.nextInt();
+        int X = scanner.nextInt();
+
         A = new ArrayList[N + 1];
-        answer = new ArrayList<>();
+        visited = new int[N + 1];
+
         for (int i = 1; i <= N; i++) {
-            A[i] = new ArrayList<Integer>();
+            A[i] = new ArrayList<>();
         }
+
         for (int i = 0; i < M; i++) {
-            int S = scan.nextInt();
-            int E = scan.nextInt();
-            A[S].add(E);
+            int s = scanner.nextInt();
+            int e = scanner.nextInt();
+
+            A[s].add(e);
         }
-        visited = new int[N + 1];  //방문 배열 초기화
-        for(int i=0;i<=N;i++){
-            visited[i]=-1;
+
+        for (int i = 0; i <= N; i++) {
+            visited[i] = -1;
         }
+
         BFS(X);
-        for(int i=0;i<=N;i++){
-            if(visited[i]==K) {
+
+        for (int i = 1; i <= N; i++) {
+            if(visited[i] == K){
                 answer.add(i);
             }
         }
+
         if(answer.isEmpty()){
             System.out.println("-1");
-        }
-        else{
+        }else{
             Collections.sort(answer);
-            for(int temp:answer){
-                System.out.println(temp);
+            for (Integer i : answer) {
+                System.out.println(i);
             }
         }
     }
-    // BFS구현
-    private static void BFS(int node) {
-        Queue<Integer> queue = new LinkedList<Integer>();
-        queue.add(node);
-        visited[node]++;
-        while (!queue.isEmpty()) {
-            int now_node = queue.poll();
-            for (int i : A[now_node]) {
-                if (visited[i]==-1) {
-                    visited[i] = visited[now_node]+1;
-                    queue.add(i);
+
+    private static void BFS(int x) {
+        Queue<Integer> q = new LinkedList<>();
+        q.add(x);
+        visited[x]++;
+
+        while (!q.isEmpty()){
+            int nowNode = q.poll();
+            for (Integer i : A[nowNode]) {
+                if(visited[i] == -1){
+                    visited[i] = visited[nowNode] + 1;
+                    q.add(i);
                 }
             }
         }
     }
+
+
 }
